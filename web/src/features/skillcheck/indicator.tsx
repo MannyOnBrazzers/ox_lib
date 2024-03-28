@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { SkillCheckProps } from '../../typings';
 import { useInterval } from '@mantine/hooks';
-import { circleCircumference } from './index';
 
 interface Props {
   angle: number;
@@ -22,10 +21,21 @@ const Indicator: React.FC<Props> = ({ angle, offset, multiplier, handleComplete,
       }),
     1
   );
-
   const keyHandler = useCallback(
     (e: KeyboardEvent) => {
-      setKeyPressed(e.key.toLowerCase());
+      const capitalHetaCode = 880;
+      const isNonLatin = e.key.charCodeAt(0) >= capitalHetaCode;
+      var convKey = e.key.toLowerCase()
+      if (isNonLatin) {
+        if (e.code.indexOf('Key') === 0 && e.code.length === 4) { // i.e. 'KeyW'
+          convKey = e.code.charAt(3);
+        }
+
+        if (e.code.indexOf('Digit') === 0 && e.code.length === 6) { // i.e. 'Digit7'
+          convKey = e.code.charAt(5);
+        }
+      }
+      setKeyPressed(convKey.toLowerCase());
     },
     [skillCheck]
   );
@@ -59,17 +69,7 @@ const Indicator: React.FC<Props> = ({ angle, offset, multiplier, handleComplete,
     setKeyPressed(false);
   }, [keyPressed]);
 
-  return (
-    <circle
-      r={50}
-      cx={250}
-      cy={250}
-      strokeDasharray={circleCircumference}
-      strokeDashoffset={circleCircumference - 3}
-      transform={`rotate(${indicatorAngle}, 250, 250)`}
-      className={className}
-    />
-  );
+  return <circle transform={`rotate(${indicatorAngle}, 250, 250)`} className={className} />;
 };
 
 export default Indicator;

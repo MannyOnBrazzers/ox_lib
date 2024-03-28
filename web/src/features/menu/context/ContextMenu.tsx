@@ -1,5 +1,5 @@
 import { useNuiEvent } from '../../../hooks/useNuiEvent';
-import { Box, Stack, Text, Flex, createStyles } from '@mantine/core';
+import { Box, createStyles, Flex, Stack, Text } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import { ContextMenuProps } from '../../../typings';
 import ContextButton from './components/ContextButton';
@@ -66,10 +66,10 @@ const ContextMenu: React.FC = () => {
     fetchNui('closeContext');
   };
 
-    // resets the filter when a new menu is loaded
-    useEffect(() => {
-      setCurrentFilter('')
-    }, [contextMenu]);
+  // resets the filter when a new menu is loaded
+  useEffect(() => {
+    setCurrentFilter('')
+  }, [contextMenu]);
 
   // Hides the context menu on ESC
   useEffect(() => {
@@ -97,8 +97,7 @@ const ContextMenu: React.FC = () => {
 
   return (
     <Box className={classes.container}>
-      <ScaleFade visible={visible}>
-        {contextMenu.filter && (
+      {contextMenu.filter && (
           <Box className={classes.filterContainer}>
             <SearchInput
             value={currentFilter}
@@ -122,7 +121,7 @@ const ContextMenu: React.FC = () => {
         </Flex>
         <Box className={classes.buttonsContainer}>
           <Stack className={classes.buttonsFlexWrapper}>
-            {Object.entries(contextMenu.options).map((option, index) =>
+          {Object.entries(contextMenu.options).map((option, index) =>
               currentFilter !== '' ? (
                 ((option[1].title && option[1].title.toLowerCase().includes(currentFilter.toLowerCase())) ||
                   (option[1].description &&
