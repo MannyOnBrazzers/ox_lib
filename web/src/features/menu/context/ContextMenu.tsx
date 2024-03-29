@@ -97,6 +97,7 @@ const ContextMenu: React.FC = () => {
 
   return (
     <Box className={classes.container}>
+      <ScaleFade visible={visible}>
       {contextMenu.filter && (
           <Box className={classes.filterContainer}>
             <SearchInput
